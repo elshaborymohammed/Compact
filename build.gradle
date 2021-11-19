@@ -1,0 +1,60 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+apply from: "dependencies.gradle"
+
+buildscript {
+    ext {
+        ext.hilt_version = '2.38.1'
+    }
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31"
+        classpath 'com.android.tools.build:gradle:7.0.3'
+        classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+subprojects {
+    apply plugin: "maven-publish"
+
+    def getVersionName = { ->
+        return "0.0.1"
+    }
+    def github = new Properties()
+    github.load(new FileInputStream(rootProject.file("github.properties")))
+
+    publishing {
+        repositories {
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/elshaborymohammed/Compact")
+                credentials {
+                    username = github['gpr.user'] ?: System.getenv("GPR_USER")
+                    password = github['gpr.key'] ?: System.getenv("GPR_API_KEY")
+                }
+            }
+        }
+
+        publications {
+            release(MavenPublication) {
+                groupId "com.compact"
+                artifactId ARTIFACT_ID
+                version getVersionName()
+                artifact("$buildDir/outputs/aar/${ARTIFACT_ID}-release.aar")
+            }
+        }
+    }
+}

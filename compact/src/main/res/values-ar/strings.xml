@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="field_required">هذا الحقل مطلوب</string>
+    <string name="invalid_full_name">الاسم الكامل غير صالح</string>
+    <string name="invalid_digits">يجب أن يتكون هذا الحقل من أرقام فقط</string>
+    <string name="invalid_login">بريد إلكتروني أو هاتف جوال غير صالح</string>
+    <string name="invalid_phone">رقم الجوال غير صالح</string>
+    <string name="invalid_email">بريد إلكتروني غير صالح</string>
+    <string name="invalid_username">ليس اسم مستخدم صالحًا</string>
+    <string name="invalid_password">يجب أن تكون كلمة المرور> 8 أحرف</string>
+    <string name="invalid_password_confirmation">كلمة المرور غير متطابقة</string>
+</resources>
