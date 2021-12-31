@@ -30,30 +30,39 @@ fun <T> TextInputLayout.setAdapter(
     }
 }
 
-fun <T> TextInputLayout.setAdapter(objects: List<T>) {
+fun <T> TextInputLayout.setAdapter(
+    objects: List<T>,
+    onItemClickListener: AdapterView.OnItemClickListener? = null
+) {
     setAdapter(
         BaseArrayAdapter(
             context = context,
             objects = objects
-        )
+        ), onItemClickListener
     )
 }
 
-fun <T> TextInputLayout.setAdapter(objects: Array<T>) {
+fun <T> TextInputLayout.setAdapter(
+    objects: Array<T>,
+    onItemClickListener: AdapterView.OnItemClickListener? = null
+) {
     setAdapter(
         BaseArrayAdapter<T>(
             context = context,
             objects = objects
-        )
+        ), onItemClickListener
     )
 }
 
-fun TextInputLayout.setAdapter(@ArrayRes arrayRes: Int) {
+fun TextInputLayout.setAdapter(
+    @ArrayRes arrayRes: Int,
+    onItemClickListener: AdapterView.OnItemClickListener? = null
+) {
     setAdapter(
         BaseArrayAdapter<String>(
             context = context,
             objects = resources.getStringArray(arrayRes)
-        )
+        ), onItemClickListener
     )
 }
 

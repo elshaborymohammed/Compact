@@ -38,10 +38,6 @@ fun View.setMaterialButtonTextSelect() {
     }
 }
 
-fun View.setVisibility(visibility: Boolean) {
-    setVisibility(if (visibility) View.VISIBLE else View.GONE)
-}
-
 fun View.showDatePicker(
     fragmentManager: FragmentManager,
     @StyleRes theme: Int,

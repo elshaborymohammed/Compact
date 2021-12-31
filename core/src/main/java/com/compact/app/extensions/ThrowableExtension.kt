@@ -4,6 +4,11 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import com.google.gson.Gson
+import retrofit2.HttpException
+import timber.log.Timber
+import java.net.ConnectException
+import java.net.SocketTimeoutException
+import java.net.UnknownHostException
 
 private fun Throwable.printErrorStackTrace(
     context: Context,
@@ -27,8 +32,8 @@ private fun Throwable.printErrorStackTrace(
     onApiInternalServerErrorException: ((message: String) -> Unit)? = null,
     onNetworkErrorException: (() -> Unit)? = null
 ) {
-    Log.e("HTTP", this.message, this)
-    if (this is retrofit2.HttpException) {
+    Timber.e(this, this.message)
+    if (this is HttpException) {
         if (this.code() == 400) {
             onApiBadRequestException?.invoke(this.response()?.errorBody()?.string() ?: "")
         } else {
@@ -36,9 +41,9 @@ private fun Throwable.printErrorStackTrace(
         }
     } else if (
         arrayListOf(
-            java.net.SocketTimeoutException::class,
-            java.net.ConnectException::class,
-            java.net.UnknownHostException::class
+            SocketTimeoutException::class,
+            ConnectException::class,
+            UnknownHostException::class
         ).contains(this::class)
     ) {
         onNetworkErrorException?.invoke()
@@ -51,7 +56,7 @@ inline fun <reified T> Throwable.printErrorStackTraceReified(
     onApiBadRequestException: ((errorBody: T) -> Unit) = {},
     onApiInternalServerErrorException: ((message: String) -> Unit) = {},
     onNetworkErrorException: (() -> Unit) = {}
-) = printErrorStackTraceReified1(
+) = printErrorStackTraceReified(
     onApiBadRequestException = onApiBadRequestException,
     onApiInternalServerErrorException = {
         onShowMessage.invoke(it)
@@ -64,17 +69,17 @@ inline fun <reified T> Throwable.printErrorStackTraceReified(
 )
 
 
-inline fun <reified T> Throwable.printErrorStackTraceReified1(
+inline fun <reified T> Throwable.printErrorStackTraceReified(
     onApiBadRequestException: ((errorBody: T) -> Unit) = {},
     onApiInternalServerErrorException: ((message: String) -> Unit) = {},
     onNetworkErrorException: (() -> Unit) = {}
 ) {
-    Log.e("HTTP", this.message, this)
-    if (this is retrofit2.HttpException) {
+    Timber.e(this, this.message)
+    if (this is HttpException) {
         if (this.code() == 400) {
             this.response()?.errorBody()?.string().run {
                 if (this.isNullOrEmpty()) {
-                    onApiInternalServerErrorException.invoke(this@printErrorStackTraceReified1.message())
+                    onApiInternalServerErrorException.invoke(this@printErrorStackTraceReified.message())
                 } else {
                     onApiBadRequestException.invoke(Gson().fromJson(this, T::class.java))
                 }
@@ -84,9 +89,9 @@ inline fun <reified T> Throwable.printErrorStackTraceReified1(
         }
     } else if (
         arrayListOf(
-            java.net.SocketTimeoutException::class,
-            java.net.ConnectException::class,
-            java.net.UnknownHostException::class
+            SocketTimeoutException::class,
+            ConnectException::class,
+            UnknownHostException::class
         ).contains(this::class)
     ) {
         onNetworkErrorException.invoke()

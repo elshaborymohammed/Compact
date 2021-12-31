@@ -1,6 +1,7 @@
 package com.compact.core.executor;
 
 import io.reactivex.rxjava3.core.CompletableTransformer;
+import io.reactivex.rxjava3.core.FlowableTransformer;
 import io.reactivex.rxjava3.core.ObservableTransformer;
 import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.core.SingleTransformer;
@@ -20,6 +21,10 @@ public class RxCompactSchedulers {
     }
 
     public <T> ObservableTransformer<T, T> applyOnObservable() {
+        return upstream -> upstream.subscribeOn(subscribeOn).observeOn(observeOn).unsubscribeOn(subscribeOn);
+    }
+
+    public <T> FlowableTransformer<T, T> applyOnFlowable() {
         return upstream -> upstream.subscribeOn(subscribeOn).observeOn(observeOn).unsubscribeOn(subscribeOn);
     }
 

@@ -1,13 +1,10 @@
 package com.compact.app.extensions
 
 import android.annotation.SuppressLint
-import android.content.res.Resources
-import android.os.Build
 import android.view.View
 import androidx.annotation.StyleRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
-import com.compact.R
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
@@ -36,10 +33,6 @@ fun View.setMaterialButtonTextSelect() {
             ContextCompat.getColor(context, androidx.appcompat.R.attr.colorAccent)
         )
     }
-}
-
-fun View.setVisibility(visibility: Boolean) {
-    setVisibility(if (visibility) View.VISIBLE else View.GONE)
 }
 
 fun View.showDatePicker(

@@ -1,9 +1,9 @@
 package com.compact.app
 
 import android.content.Context
-import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Filter
+import timber.log.Timber
 import java.util.*
 
 open class BaseArrayAdapter<T> : ArrayAdapter<T> {
@@ -56,7 +56,7 @@ open class BaseArrayAdapter<T> : ArrayAdapter<T> {
                 addAll(results.values as List<T>)
                 notifyDataSetChanged()
             } catch (e: Exception) {
-                Log.i("BaseArrayAdapter", "publishResults: ", e)
+                Timber.i(e, "publishResults: ")
             }
         }
 

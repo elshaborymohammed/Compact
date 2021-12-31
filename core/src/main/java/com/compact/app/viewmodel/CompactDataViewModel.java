@@ -42,11 +42,11 @@ public abstract class CompactDataViewModel<T> extends CompactViewModel {
     }
 
     protected Consumer<T> onSuccess() {
-        return it -> data.accept(it);
+        return data::accept;
     }
 
     protected Consumer<Throwable> onError() {
-        return it -> error.accept(it);
+        return error::accept;
     }
 
     @Override
