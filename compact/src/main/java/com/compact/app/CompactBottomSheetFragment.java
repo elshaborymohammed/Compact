@@ -27,8 +27,8 @@ import io.reactivex.rxjava3.disposables.Disposable;
 public abstract class CompactBottomSheetFragment<T extends ViewDataBinding> extends BottomSheetDialogFragment {
 
     private final CompositeDisposable disposables = new CompositeDisposable();
-    protected BottomSheetBehavior<View> bottomSheetBehavior;
-    protected T dataBinding;
+    public BottomSheetBehavior<View> bottomSheetBehavior;
+    public T dataBinding;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -73,7 +73,7 @@ public abstract class CompactBottomSheetFragment<T extends ViewDataBinding> exte
         return new Disposable[0];
     }
 
-    protected void subscribe(Disposable d) {
+    public void subscribe(Disposable d) {
         disposables.add(d);
     }
 

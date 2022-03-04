@@ -4,8 +4,13 @@ import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import androidx.databinding.BindingAdapter
+import com.bumptech.glide.load.resource.bitmap.CenterInside
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.module.GlideApp
+import com.bumptech.glide.module.GlideRequest
 import com.compact.app.extensions.decodeBase64
+import com.compact.app.extensions.dp
 import com.compact.app.extensions.isBase64
 
 object ImageViewHelper {
@@ -31,12 +36,12 @@ object ImageViewHelper {
 
         load = load.placeholder(placeholder).error(error)
             .transition(DrawableTransitionOptions.withCrossFade(100))
-//            .override(64f.dp, 64f.dp)
 
-        load = if (shape == Shape.CIRCLE) {
-            load.circleCrop()
-        } else {
-            load.optionalFitCenter()
+        load = when (shape) {
+            Shape.CIRCLE -> load.circleCrop()
+            Shape.ROUNDED -> load.transform(RoundedCorners(12.dp))
+            Shape.CENTER_INSIDE -> load.centerInside()
+            else -> load.optionalFitCenter()
         }
         load.into(imageView)
     }
@@ -48,6 +53,6 @@ object ImageViewHelper {
     }
 
     enum class Shape {
-        CIRCLE, RECTANGLE, ROUNDED, OVAL
+        CIRCLE, ROUNDED, CENTER_INSIDE
     }
 }

@@ -3,15 +3,15 @@ apply from: "dependencies.gradle"
 
 buildscript {
     ext {
-        ext.hilt_version = '2.38.1'
+        ext.hilt_version = '2.40.2'
     }
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31"
-        classpath 'com.android.tools.build:gradle:7.0.3'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10"
+        classpath 'com.android.tools.build:gradle:7.0.4'
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
     }
 }
@@ -28,13 +28,12 @@ task clean(type: Delete) {
 }
 
 subprojects {
+    println(System.getenv("PATH"))
     apply plugin: "maven-publish"
 
     def getVersionName = { ->
-        return "0.0.1"
+        return "0.0.3"
     }
-    def github = new Properties()
-    github.load(new FileInputStream(rootProject.file("github.properties")))
 
     publishing {
         repositories {
@@ -42,8 +41,8 @@ subprojects {
                 name = "GitHubPackages"
                 url = uri("https://maven.pkg.github.com/elshaborymohammed/Compact")
                 credentials {
-                    username = github['gpr.user'] ?: System.getenv("GPR_USER")
-                    password = github['gpr.key'] ?: System.getenv("GPR_API_KEY")
+                    username = System.getenv("GPR_USER")
+                    password = System.getenv("GPR_API_KEY")
                 }
             }
         }

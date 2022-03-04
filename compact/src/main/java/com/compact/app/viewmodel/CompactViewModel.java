@@ -12,7 +12,7 @@ import io.reactivex.rxjava3.core.SingleTransformer;
 
 public abstract class CompactViewModel extends ViewModel {
 
-    private final ReplayRelay<Boolean> loading = ReplayRelay.create();
+    protected final ReplayRelay<Boolean> loading = ReplayRelay.create();
 
     protected void loadingOn() {
         loading().accept(Boolean.TRUE);

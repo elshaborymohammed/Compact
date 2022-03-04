@@ -29,7 +29,7 @@ public abstract class CompactActivity<T extends ViewDataBinding> extends AppComp
     }
 
     private final CompositeDisposable disposable = new CompositeDisposable();
-    protected T dataBinding;
+    public T dataBinding;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -56,15 +56,15 @@ public abstract class CompactActivity<T extends ViewDataBinding> extends AppComp
         return new Disposable[0];
     }
 
+    public void subscribe(Disposable d) {
+        disposable.add(d);
+    }
+
     @Override
     protected void onDestroy() {
         disposable.dispose();
         disposable.clear();
         super.onDestroy();
-    }
-
-    protected void subscribe(Disposable d) {
-        disposable.add(d);
     }
 
     public void showSnackBar(@NonNull String message) {

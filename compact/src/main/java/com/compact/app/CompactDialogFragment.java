@@ -64,7 +64,7 @@ public abstract class CompactDialogFragment<T extends ViewDataBinding> extends D
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
-        onViewBound(view);
+        onViewBound();
         disposable.addAll(subscriptions());
     }
 
@@ -77,16 +77,16 @@ public abstract class CompactDialogFragment<T extends ViewDataBinding> extends D
 //        getDialog().getWindow().setAttributes(params);
     }
 
-    protected abstract void onViewBound(View view);
+    @LayoutRes
+    protected abstract int layoutRes();
+
+    protected abstract void onViewBound();
 
     protected Disposable[] subscriptions() {
         return new Disposable[0];
     }
 
-    @LayoutRes
-    protected abstract int layoutRes();
-
-    protected void subscribe(Disposable d) {
+    public void subscribe(Disposable d) {
         disposable.add(d);
     }
 }

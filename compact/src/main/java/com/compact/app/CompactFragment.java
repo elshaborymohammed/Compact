@@ -63,14 +63,19 @@ public abstract class CompactFragment<T extends ViewDataBinding> extends Fragmen
         return new Disposable[0];
     }
 
+    public void subscribe(Disposable d) {
+        disposables.add(d);
+    }
+
+    @Deprecated
+    public void addSubscribe(Disposable d) {
+        disposables.add(d);
+    }
+
     @Override
     public void onDestroyView() {
         disposables.clear();
         super.onDestroyView();
-    }
-
-    protected void addSubscribe(Disposable d) {
-        disposables.add(d);
     }
 
     public void showSnackBar(@NonNull String message) {
