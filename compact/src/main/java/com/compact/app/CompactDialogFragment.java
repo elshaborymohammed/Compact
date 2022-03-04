@@ -25,7 +25,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
 public abstract class CompactDialogFragment<T extends ViewDataBinding> extends DialogFragment {
 
     private final CompositeDisposable disposable = new CompositeDisposable();
-    protected T dataBinding;
+    public T dataBinding;
 
     @Override
     public void onAttach(@NotNull Context context) {

@@ -32,10 +32,11 @@ subprojects {
     apply plugin: "maven-publish"
 
     def getVersionName = { ->
-        return "0.0.3"
+        return "0.0.4"
     }
 
     publishing {
+
         repositories {
             maven {
                 name = "GitHubPackages"

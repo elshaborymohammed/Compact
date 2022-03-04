@@ -31,7 +31,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
 public abstract class CompactFragment<T extends ViewDataBinding> extends Fragment {
 
     private final CompositeDisposable disposables = new CompositeDisposable();
-    protected T dataBinding;
+    public T dataBinding;
 
     @LayoutRes
     protected abstract int layoutRes();
