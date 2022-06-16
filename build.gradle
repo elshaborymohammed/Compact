@@ -29,6 +29,8 @@ task clean(type: Delete) {
 
 subprojects {
     println(System.getenv("PATH"))
+    println(System.getenv("GPR_USER"))
+    println(System.getenv("GPR_API_KEY"))
     apply plugin: "maven-publish"
 
     def getVersionName = { ->
@@ -42,7 +44,7 @@ subprojects {
                 url = uri("https://maven.pkg.github.com/elshaborymohammed/Compact")
                 credentials {
                     username = System.getenv("GPR_USER")
-                    password = "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"
+                    password = System.getenv("GPR_API_KEY")
                 }
             }
         }
@@ -55,12 +57,12 @@ subprojects {
                 artifact("$buildDir/outputs/aar/${ARTIFACT_ID}-release.aar")
             }
 
-            maven(MavenPublication) {
-                groupId "com.compact"
-                artifactId ARTIFACT_ID
-                version getVersionName()
-                artifact("$buildDir/outputs/aar/${ARTIFACT_ID}-release.aar")
-            }
+//            maven(MavenPublication) {
+//                groupId "com.compact"
+//                artifactId ARTIFACT_ID
+//                version getVersionName()
+//                artifact("$buildDir/outputs/aar/${ARTIFACT_ID}-release.aar")
+//            }
         }
     }
 }
