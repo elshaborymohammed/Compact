@@ -36,12 +36,12 @@ android {
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.7.0")
-    implementation("androidx.appcompat:appcompat:1.4.1")
-    implementation("com.google.android.material:material:1.5.0")
+    implementation("androidx.core:core-ktx:1.8.0")
+    implementation("androidx.appcompat:appcompat:1.4.2")
+    implementation("com.google.android.material:material:1.6.1")
     implementation("androidx.preference:preference-ktx:1.2.0")
     implementation("androidx.activity:activity-ktx:1.4.0")
-    implementation("androidx.fragment:fragment-ktx:1.5.0-alpha01")
+    implementation("androidx.fragment:fragment-ktx:1.5.0-rc01")
 
     //region Network
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.9.0"))
@@ -65,7 +65,7 @@ dependencies {
     implementation("com.caverock:androidsvg:1.4")
     //endregion
 
-    implementation("com.google.code.gson:gson:2.8.9")
+    implementation("com.google.code.gson:gson:2.9.0")
 
     //region Dagger Hilt
     implementation("com.google.dagger:hilt-android:$hilt_version")

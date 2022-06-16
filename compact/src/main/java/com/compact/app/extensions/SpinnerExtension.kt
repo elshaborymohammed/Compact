@@ -18,11 +18,11 @@ fun <T> TextInputLayout.setAdapter(
             it.setAdapter(adapter)
             it.onItemClickListener = onItemClickListener
             this.setEndIconOnClickListener { _ ->
-//                adapter.filter?.filter(null)
+                adapter.filter?.filter(null)
                 it.showDropDown()
             }
             it.setOnTouchListener { _, _ ->
-//                adapter?.filter?.filter(null)
+                adapter?.filter?.filter(null)
                 it.showDropDown()
                 false
             }
@@ -77,3 +77,5 @@ fun List<String>?.isBlack(): Boolean {
         else -> this.isEmpty()
     }
 }
+
+fun print() = "print"

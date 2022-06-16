@@ -8,6 +8,7 @@ import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.migration.DisableInstallInCheck;
 import dagger.multibindings.IntoSet;
+import okhttp3.Authenticator;
 import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -25,7 +26,7 @@ public class NetworkModule {
 
     @Provides
     @Singleton
-    OkHttpClient.Builder providesOkHttpClient(Cache cache, Set<Interceptor> interceptorSet) {
+    OkHttpClient.Builder providesOkHttpClient(Cache cache, Set<Interceptor> interceptorSet, Authenticator authenticator) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .cache(cache)
 //                .callTimeout(3L, TimeUnit.SECONDS)
@@ -34,6 +35,7 @@ public class NetworkModule {
                 ;
 
         builder.interceptors().addAll(interceptorSet);
+        builder.authenticator(authenticator);
         return builder;
     }
 }

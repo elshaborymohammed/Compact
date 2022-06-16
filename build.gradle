@@ -10,7 +10,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.0"
         classpath 'com.android.tools.build:gradle:7.0.4'
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
     }
@@ -32,24 +32,30 @@ subprojects {
     apply plugin: "maven-publish"
 
     def getVersionName = { ->
-        return "0.0.4"
+        return "0.0.8"
     }
 
     publishing {
-
         repositories {
             maven {
                 name = "GitHubPackages"
                 url = uri("https://maven.pkg.github.com/elshaborymohammed/Compact")
                 credentials {
                     username = System.getenv("GPR_USER")
-                    password = System.getenv("GPR_API_KEY")
+                    password = "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"
                 }
             }
         }
 
         publications {
             release(MavenPublication) {
+                groupId "com.compact"
+                artifactId ARTIFACT_ID
+                version getVersionName()
+                artifact("$buildDir/outputs/aar/${ARTIFACT_ID}-release.aar")
+            }
+
+            maven(MavenPublication) {
                 groupId "com.compact"
                 artifactId ARTIFACT_ID
                 version getVersionName()
