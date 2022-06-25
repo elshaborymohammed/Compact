@@ -5,12 +5,12 @@ import android.util.Log
 import android.widget.Toast
 import com.google.gson.Gson
 
-private fun Throwable.printErrorStackTrace(
+private fun Throwable.printErrorStackTraceToast(
     context: Context,
     onApiBadRequestException: ((errorBody: String) -> Unit)? = null,
     onApiInternalServerErrorException: ((message: String) -> Unit)? = null,
     onNetworkErrorException: (() -> Unit)? = null
-) = printErrorStackTrace(
+) = printErrorStackTraceBase(
     onApiBadRequestException = onApiBadRequestException,
     onApiInternalServerErrorException = {
         Toast.makeText(context, it, Toast.LENGTH_LONG).show()
@@ -22,7 +22,7 @@ private fun Throwable.printErrorStackTrace(
     }
 )
 
-private fun Throwable.printErrorStackTrace(
+private fun Throwable.printErrorStackTraceBase(
     onApiBadRequestException: ((errorBody: String) -> Unit)? = null,
     onApiInternalServerErrorException: ((message: String) -> Unit)? = null,
     onNetworkErrorException: (() -> Unit)? = null
@@ -46,12 +46,15 @@ private fun Throwable.printErrorStackTrace(
 }
 
 
+
+
+
 inline fun <reified T> Throwable.printErrorStackTraceReified(
     onShowMessage: ((message: String) -> Unit) = {},
     onApiBadRequestException: ((errorBody: T) -> Unit) = {},
     onApiInternalServerErrorException: ((message: String) -> Unit) = {},
     onNetworkErrorException: (() -> Unit) = {}
-) = printErrorStackTraceReified1(
+) = printErrorStackTraceReifiedBase(
     onApiBadRequestException = onApiBadRequestException,
     onApiInternalServerErrorException = {
         onShowMessage.invoke(it)
@@ -63,8 +66,25 @@ inline fun <reified T> Throwable.printErrorStackTraceReified(
     }
 )
 
+inline fun <reified T> Throwable.printErrorStackTraceReified(
+    onShowMessage: ((message: String) -> Unit) = {},
+    onShowMessageRetry: ((message: String) -> Unit) = {},
+    onApiBadRequestException: ((errorBody: T) -> Unit) = {},
+    onApiInternalServerErrorException: ((message: String) -> Unit) = {},
+    onNetworkErrorException: (() -> Unit) = {}
+) = printErrorStackTraceReifiedBase(
+    onApiBadRequestException = onApiBadRequestException,
+    onApiInternalServerErrorException = {
+        onShowMessage.invoke(it)
+        onApiInternalServerErrorException.invoke(it)
+    },
+    onNetworkErrorException = {
+        onShowMessageRetry.invoke("Lost Connection")
+        onNetworkErrorException.invoke()
+    }
+)
 
-inline fun <reified T> Throwable.printErrorStackTraceReified1(
+inline fun <reified T> Throwable.printErrorStackTraceReifiedBase(
     onApiBadRequestException: ((errorBody: T) -> Unit) = {},
     onApiInternalServerErrorException: ((message: String) -> Unit) = {},
     onNetworkErrorException: (() -> Unit) = {}
@@ -74,7 +94,7 @@ inline fun <reified T> Throwable.printErrorStackTraceReified1(
         if (this.code() == 400) {
             this.response()?.errorBody()?.string().run {
                 if (this.isNullOrEmpty()) {
-                    onApiInternalServerErrorException.invoke(this@printErrorStackTraceReified1.message())
+                    onApiInternalServerErrorException.invoke(this@printErrorStackTraceReifiedBase.message())
                 } else {
                     onApiBadRequestException.invoke(Gson().fromJson(this, T::class.java))
                 }

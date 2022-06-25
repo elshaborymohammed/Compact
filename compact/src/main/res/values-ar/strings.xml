@@ -9,4 +9,6 @@
     <string name="invalid_username">ليس اسم مستخدم صالحًا</string>
     <string name="invalid_password">يجب أن تكون كلمة المرور> 8 أحرف</string>
     <string name="invalid_password_confirmation">كلمة المرور غير متطابقة</string>
+
+    <string name="retry">أعد المحاولة</string>
 </resources>

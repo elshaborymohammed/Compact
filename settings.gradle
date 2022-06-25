@@ -1,2 +1,2 @@
 rootProject.name = "Compact"
-include ':core', ':compact'
+include ':compact'

@@ -11,10 +11,12 @@ import androidx.annotation.IdRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 
+import com.compact.R;
 import com.compact.content.ContextWrapper;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -78,23 +80,38 @@ public abstract class CompactFragment<T extends ViewDataBinding> extends Fragmen
         super.onDestroyView();
     }
 
-    public void showSnackBar(@NonNull String message) {
-        Snackbar.make(dataBinding.getRoot(), message, Snackbar.LENGTH_LONG)
+    public Snackbar makeSnackBar(@NonNull String message) {
+        return Snackbar.make(dataBinding.getRoot(), message, Snackbar.LENGTH_LONG)
                 .setBehavior(new BaseTransientBottomBar.Behavior())
-                .setAnimationMode(Snackbar.ANIMATION_MODE_SLIDE)
-                .show();
+                .setAnimationMode(Snackbar.ANIMATION_MODE_SLIDE);
+    }
+
+    public void showSnackBar(@NonNull String message) {
+        makeSnackBar(message).show();
     }
 
     public void showSnackBar(@NonNull String message, @IdRes int anchorView) {
-        Snackbar.make(dataBinding.getRoot(), message, Snackbar.LENGTH_LONG)
-                .setBehavior(new BaseTransientBottomBar.Behavior())
-                .setAnimationMode(Snackbar.ANIMATION_MODE_SLIDE)
+        makeSnackBar(message)
+                .setAnchorView(anchorView)
+                .show();
+    }
+
+    public void showSnackBarRetry(@NonNull String message, View.OnClickListener listener) {
+        makeSnackBar(message)
+                .setAction(R.string.retry, listener)
+                .setActionTextColor(ContextCompat.getColor(requireContext(), R.color.retry))
+                .show();
+    }
+
+    public void showSnackBarRetry(@NonNull String message, @IdRes int anchorView, View.OnClickListener listener) {
+        makeSnackBar(message)
+                .setAction(R.string.retry, listener)
+                .setActionTextColor(ContextCompat.getColor(requireContext(), R.color.retry))
                 .setAnchorView(anchorView)
                 .show();
     }
 
     public void showToast(@NonNull String message) {
-        Toast.makeText(getContext(), message, Toast.LENGTH_LONG)
-                .show();
+        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
 }

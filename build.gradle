@@ -28,13 +28,10 @@ task clean(type: Delete) {
 }
 
 subprojects {
-    println(System.getenv("PATH"))
-    println(System.getenv("GPR_USER"))
-    println(System.getenv("GPR_API_KEY"))
     apply plugin: "maven-publish"
 
     def getVersionName = { ->
-        return "0.0.8"
+        return "0.0.10"
     }
 
     publishing {
