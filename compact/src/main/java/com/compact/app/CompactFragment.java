@@ -98,6 +98,7 @@ public abstract class CompactFragment<T extends ViewDataBinding> extends Fragmen
 
     public void showSnackBarRetry(@NonNull String message, View.OnClickListener listener) {
         makeSnackBar(message)
+                .setDuration(Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.retry, listener)
                 .setActionTextColor(ContextCompat.getColor(requireContext(), R.color.retry))
                 .show();
@@ -105,6 +106,7 @@ public abstract class CompactFragment<T extends ViewDataBinding> extends Fragmen
 
     public void showSnackBarRetry(@NonNull String message, @IdRes int anchorView, View.OnClickListener listener) {
         makeSnackBar(message)
+                .setDuration(Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.retry, listener)
                 .setActionTextColor(ContextCompat.getColor(requireContext(), R.color.retry))
                 .setAnchorView(anchorView)
