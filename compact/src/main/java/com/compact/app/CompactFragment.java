@@ -23,6 +23,8 @@ import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 
@@ -34,6 +36,7 @@ public abstract class CompactFragment<T extends ViewDataBinding> extends Fragmen
 
     private final CompositeDisposable disposables = new CompositeDisposable();
     public T dataBinding;
+    protected Snackbar snackbar;
 
     @LayoutRes
     protected abstract int layoutRes();
@@ -76,14 +79,20 @@ public abstract class CompactFragment<T extends ViewDataBinding> extends Fragmen
 
     @Override
     public void onDestroyView() {
+        if (Objects.nonNull(snackbar)) {
+            snackbar.dismiss();
+        }
+
         disposables.clear();
         super.onDestroyView();
     }
 
     public Snackbar makeSnackBar(@NonNull String message) {
-        return Snackbar.make(dataBinding.getRoot(), message, Snackbar.LENGTH_LONG)
+        snackbar = Snackbar.make(dataBinding.getRoot(), message, Snackbar.LENGTH_LONG)
                 .setBehavior(new BaseTransientBottomBar.Behavior())
                 .setAnimationMode(Snackbar.ANIMATION_MODE_SLIDE);
+
+        return snackbar;
     }
 
     public void showSnackBar(@NonNull String message) {
